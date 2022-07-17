@@ -26,6 +26,7 @@ public class Shop {
     private String introduction;
 
     @OneToOne(
+            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             mappedBy = "shop",
             optional = false

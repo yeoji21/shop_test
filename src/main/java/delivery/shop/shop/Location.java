@@ -13,7 +13,7 @@ public class Location implements Serializable {
     @Column(name = "location_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
