@@ -2,10 +2,7 @@ package delivery.shop;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import delivery.shop.config.JpaQueryFactoryConfig;
-import delivery.shop.shop.Location;
-import delivery.shop.shop.QLocation;
-import delivery.shop.shop.QShop;
-import delivery.shop.shop.Shop;
+import delivery.shop.shop.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,11 +41,13 @@ public class ShopPersisTest {
     @Test @Rollback(value = false)
     void setData() throws Exception{
         for (int i = 0; i < 100; i++) {
+            List<Menu> menuList = List.of(new Menu("xx"), new Menu("yy"), new Menu("zz"));
             Shop newShop = Shop.builder()
                     .shopName("shop" + i)
                     .phoneNumber("052-xxx-xxxx")
                     .introduction("hello~")
                     .location(Location.builder().streetAddress("xxxx-xxxx-xxxx").build())
+                    .menuList(menuList)
                     .build();
             em.persist(newShop);
         }
@@ -57,9 +56,14 @@ public class ShopPersisTest {
     @Test
     void shop_persist() throws Exception{
         List<Shop> shopList = queryFactory.selectFrom(shop)
+                .join(shop.location, location).fetchJoin()
                 .fetch();
 
-        shopList.forEach(s -> System.out.println(s.getShopName()));
+        shopList.forEach(s ->
+                s.getMenuList().forEach(
+                        m -> System.out.println(s.getShopName() + m.getMenuName())
+                )
+        );
     }
 
     private void clear() {

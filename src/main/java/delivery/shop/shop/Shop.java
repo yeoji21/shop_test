@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @EqualsAndHashCode(of = "id")
@@ -24,20 +26,32 @@ public class Shop {
     private String introduction;
 
     @OneToOne(
-//            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "shop",
             optional = false
     )
     private Location location;
 
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "shop")
+    private List<Menu> menuList = new ArrayList<>();
+
+
     @Builder
-    public Shop(String shopName, String phoneNumber, String introduction, Location location) {
+    public Shop(String shopName, String phoneNumber, String introduction, Location location, List<Menu> menuList) {
         this.shopName = shopName;
         this.phoneNumber = phoneNumber;
         this.introduction = introduction;
         this.location = location;
+        menuList.forEach(this::addMenu);
         location.setShop(this);
+    }
+
+    public void addMenu(Menu menu) {
+        menuList.add(menu);
+        menu.setShop(this);
     }
 
     public void setLocation(Location location) {
