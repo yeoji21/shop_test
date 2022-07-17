@@ -26,13 +26,11 @@ public class Shop {
     private String introduction;
 
     @OneToOne(
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL,
-            mappedBy = "shop",
-            optional = false
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
     )
+    @JoinColumn(name = "location_id")
     private Location location;
-
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
@@ -47,16 +45,10 @@ public class Shop {
         this.introduction = introduction;
         this.location = location;
         menuList.forEach(this::addMenu);
-        location.setShop(this);
     }
 
     public void addMenu(Menu menu) {
         menuList.add(menu);
         menu.setShop(this);
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-        location.setShop(this);
     }
 }

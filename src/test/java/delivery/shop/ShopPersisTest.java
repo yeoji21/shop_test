@@ -46,7 +46,7 @@ public class ShopPersisTest {
                     .shopName("shop" + i)
                     .phoneNumber("052-xxx-xxxx")
                     .introduction("hello~")
-                    .location(Location.builder().streetAddress("xxxx-xxxx-xxxx").build())
+                    .location(new Location("xxxx-xxxx-xxxx"))
                     .menuList(menuList)
                     .build();
             em.persist(newShop);
@@ -56,14 +56,25 @@ public class ShopPersisTest {
     @Test
     void shop_persist() throws Exception{
         List<Shop> shopList = queryFactory.selectFrom(shop)
-                .join(shop.location, location).fetchJoin()
+//                .join(shop.location, location).fetchJoin()
                 .fetch();
 
         shopList.forEach(s ->
-                s.getMenuList().forEach(
-                        m -> System.out.println(s.getShopName() + m.getMenuName())
-                )
+                System.out.println(s.getShopName())
         );
+
+//        shopList.forEach(s ->
+//                System.out.println(s.getShopName() + s.getLocation().getStreetAddress())
+//        );
+    }
+
+    @Test
+    void find() throws Exception{
+        Shop findShop = queryFactory.selectFrom(shop)
+//                .join(shop.location, location).fetchJoin()
+                .where(shop.id.eq(1L))
+                .fetchOne();
+        System.out.println(findShop.getShopName() + findShop.getLocation().getStreetAddress());
     }
 
     private void clear() {

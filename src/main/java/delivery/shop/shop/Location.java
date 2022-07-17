@@ -13,20 +13,10 @@ public class Location implements Serializable {
     @Column(name = "location_id")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
-
     @Column(name = "street_address")
     private String streetAddress;
 
-    @Builder
-    public Location(Shop shop, String streetAddress) {
-        this.shop = shop;
+    public Location(String streetAddress) {
         this.streetAddress = streetAddress;
-    }
-
-    public void setShop(Shop shop) {
-        this.shop = shop;
     }
 }
