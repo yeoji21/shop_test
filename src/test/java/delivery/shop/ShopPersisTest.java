@@ -20,6 +20,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import java.util.List;
+
 import static delivery.shop.shop.QLocation.location;
 import static delivery.shop.shop.QShop.shop;
 
@@ -40,29 +42,24 @@ public class ShopPersisTest {
     }
 
     @Test @Rollback(value = false)
+    void setData() throws Exception{
+        for (int i = 0; i < 100; i++) {
+            Shop newShop = Shop.builder()
+                    .shopName("shop" + i)
+                    .phoneNumber("052-xxx-xxxx")
+                    .introduction("hello~")
+                    .location(Location.builder().streetAddress("xxxx-xxxx-xxxx").build())
+                    .build();
+            em.persist(newShop);
+        }
+    }
+
+    @Test
     void shop_persist() throws Exception{
-        Shop newShop = Shop.builder()
-                .shopName("shop")
-                .phoneNumber("052-xxx-xxxx")
-                .introduction("hello~")
-                .location(Location.builder().streetAddress("xxxx-xxxx-xxxx").build())
-                .build();
+        List<Shop> shopList = queryFactory.selectFrom(shop)
+                .fetch();
 
-//        newShop.setLocation(Location.builder().streetAddress("xxxx-xxxx-xxxx").build());
-//        Location location = new Location(newShop,"xxxx-xxxx-xxxx");
-//        newShop.setLocation(location);
-
-//        em.persist(newShop);
-//        em.persist(location);
-
-        clear();
-
-        Shop findShop = queryFactory.selectFrom(shop)
-                .join(shop.location, location).fetchJoin()
-                .where(shop.id.eq(1L))
-                .fetchOne();
-
-        System.out.println(findShop.getShopName());
+        shopList.forEach(s -> System.out.println(s.getShopName()));
     }
 
     private void clear() {
