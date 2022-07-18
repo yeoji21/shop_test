@@ -38,7 +38,7 @@ public class ShopPersisTest {
         clear();
     }
 
-    @Test @Rollback(value = false)
+    @Test
     void setData() throws Exception{
         for (int i = 0; i < 100; i++) {
             List<Menu> menuList = List.of(new Menu("xx"), new Menu("yy"), new Menu("zz"));
@@ -56,26 +56,14 @@ public class ShopPersisTest {
     @Test
     void shop_persist() throws Exception{
         List<Shop> shopList = queryFactory.selectFrom(shop)
-//                .join(shop.location, location).fetchJoin()
+                .join(shop.location, location).fetchJoin()
                 .fetch();
 
         shopList.forEach(s ->
                 System.out.println(s.getShopName())
         );
-
-//        shopList.forEach(s ->
-//                System.out.println(s.getShopName() + s.getLocation().getStreetAddress())
-//        );
     }
 
-    @Test
-    void find() throws Exception{
-        Shop findShop = queryFactory.selectFrom(shop)
-//                .join(shop.location, location).fetchJoin()
-                .where(shop.id.eq(1L))
-                .fetchOne();
-        System.out.println(findShop.getShopName() + findShop.getLocation().getStreetAddress());
-    }
 
     private void clear() {
         em.clear();

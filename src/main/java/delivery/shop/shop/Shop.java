@@ -29,7 +29,7 @@ public class Shop {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = "location_id")
+    @JoinColumn(name = "location_id", unique = true)
     private Location location;
 
     @OneToMany(cascade = CascadeType.ALL,
