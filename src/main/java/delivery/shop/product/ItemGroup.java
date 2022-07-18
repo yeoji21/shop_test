@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,6 +16,13 @@ public class ItemGroup {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST,
+            mappedBy = "itemGroup"
+    )
+    private List<ProductItemGroup> productItemGroups = new ArrayList<>();
 
     private String name;
 

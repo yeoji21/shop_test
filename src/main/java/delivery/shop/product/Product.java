@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,6 +20,12 @@ public class Product {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
     @JoinColumn(name = "stock_id", unique = true)
     private Stock stock;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST,
+            mappedBy = "product"
+    )
+    private List<ProductItemGroup> productItemGroups = new ArrayList<>();
 
     private String name;
 

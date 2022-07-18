@@ -1,6 +1,7 @@
 package delivery.shop.product;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +21,10 @@ public class ProductItemGroup {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_group_id")
     private ItemGroup itemGroup;
+
+    @Builder
+    public ProductItemGroup(Product product, ItemGroup itemGroup) {
+        this.product = product;
+        this.itemGroup = itemGroup;
+    }
 }
