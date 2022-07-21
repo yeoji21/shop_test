@@ -10,6 +10,10 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SecondaryTable(
+        name = "shop_location",
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id")
+)
 @Entity
 public class Shop {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +29,21 @@ public class Shop {
     @Column(name = "introduction")
     private String introduction;
 
-    @OneToOne(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn(name = "location_id", unique = true)
+    @AttributeOverrides({
+            @AttributeOverride(
+                    name = "streetAddress",
+                    column = @Column(table = "shop_location", name = "stree_address")
+            ),
+            @AttributeOverride(
+                    name = "latitude",
+                    column = @Column(table = "shop_location", name = "latitude")
+            ),
+            @AttributeOverride(
+                    name = "longitude",
+                    column = @Column(table = "shop_location", name = "longitude")
+            )
+    })
+    @Embedded
     private Location location;
 
     @OneToMany(cascade = CascadeType.ALL,
@@ -44,7 +58,7 @@ public class Shop {
         this.phoneNumber = phoneNumber;
         this.introduction = introduction;
         this.location = location;
-        menuList.forEach(this::addMenu);
+//        menuList.forEach(this::addMenu);
     }
 
     public void addMenu(Menu menu) {

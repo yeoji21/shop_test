@@ -5,18 +5,18 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
-public class Location implements Serializable {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "location_id")
-    private Long id;
-
+@Embeddable
+@Getter
+public class Location{
     @Column(name = "street_address")
     private String streetAddress;
+    private Double latitude;
+    private Double longitude;
 
-    public Location(String streetAddress) {
+    public Location(String streetAddress, Double latitude, Double longitude) {
         this.streetAddress = streetAddress;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }
