@@ -16,20 +16,11 @@ public class Product {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
+    private String name;
+    private int price;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, optional = false)
     @JoinColumn(name = "stock_id", unique = true)
     private Stock stock;
-
-    @OneToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,
-            mappedBy = "product"
-    )
-    private List<ProductItemGroup> productItemGroups = new ArrayList<>();
-
-    private String name;
-
-    private int price;
 
     @Builder
     public Product(Stock stock, String name, int price) {
@@ -37,4 +28,6 @@ public class Product {
         this.name = name;
         this.price = price;
     }
+
+
 }

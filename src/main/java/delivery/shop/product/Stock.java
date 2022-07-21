@@ -13,6 +13,9 @@ public class Stock {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    private int quantity;
 
-    private int stockCount;
+    public Stock(int quantity) {
+        this.quantity = quantity;
+    }
 }

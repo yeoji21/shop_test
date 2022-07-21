@@ -1,5 +1,6 @@
 package delivery.shop.product;
 
+import delivery.shop.product.id.ProductItemGroupId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

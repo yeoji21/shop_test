@@ -1,5 +1,4 @@
-package delivery.shop.product;
-
+package delivery.shop.product.id;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,9 +7,9 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class ProductItemGroupId implements Serializable {
-    private Long product;
+@AllArgsConstructor
+public class ItemGroupItemId implements Serializable {
     private Long itemGroup;
+    private Long item;
 }
