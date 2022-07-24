@@ -1,5 +1,6 @@
 package delivery.shop.shop;
 
+import delivery.common.domain.Money;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,32 +23,45 @@ public class Shop {
     @Column(name = "shop_name")
     private String shopName;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
+    @Embedded
+    private Money minOrderPrice;
 
-    @Column(name = "introduction")
-    private String introduction;
-
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "shop")
-    private List<Menu> menuList = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "shop_id")
+    private List<DeliveryFee> deliveryFees = new ArrayList<>();
 
     @Embedded
     private ShopLocation location;
 
-
     @Builder
-    public Shop(String shopName, String phoneNumber, String introduction, ShopLocation location, List<Menu> menuList) {
+    public Shop(String shopName, Money minOrderPrice, ShopLocation location) {
         this.shopName = shopName;
-        this.phoneNumber = phoneNumber;
-        this.introduction = introduction;
+        this.minOrderPrice = minOrderPrice;
         this.location = location;
-//        menuList.forEach(this::addMenu);
     }
 
-    public void addMenu(Menu menu) {
-        menuList.add(menu);
-        menu.setShop(this);
+    public void addDeliveryFee(DeliveryFee deliveryFee) {
+        deliveryFees.add(deliveryFee);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

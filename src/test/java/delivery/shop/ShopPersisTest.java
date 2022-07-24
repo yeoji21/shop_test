@@ -42,10 +42,7 @@ public class ShopPersisTest {
             List<Menu> menuList = List.of(new Menu("xx"), new Menu("yy"), new Menu("zz"));
             Shop newShop = Shop.builder()
                     .shopName("shop" + i)
-                    .phoneNumber("052-xxx-xxxx")
-                    .introduction("hello~")
                     .location(new ShopLocation("xxxx-xxxx-xxxx", 1.0, 2.0))
-                    .menuList(menuList)
                     .build();
             em.persist(newShop);
         }
@@ -55,8 +52,6 @@ public class ShopPersisTest {
     void shop_persist() throws Exception{
         Shop newShop = Shop.builder()
                 .shopName("shop")
-                .phoneNumber("052-xxx-xxxx")
-                .introduction("hello~")
                 .location(new ShopLocation("xxxx-xxxx-xxxx", 1.0, 2.0))
                 .build();
         em.persist(newShop);
