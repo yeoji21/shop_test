@@ -26,8 +26,7 @@ public class Shop {
     @Embedded
     private Money minOrderPrice;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "shop_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "shop")
     private List<DeliveryFee> deliveryFees = new ArrayList<>();
 
     @Embedded
@@ -42,6 +41,7 @@ public class Shop {
 
     public void addDeliveryFee(DeliveryFee deliveryFee) {
         deliveryFees.add(deliveryFee);
+        deliveryFee.setShop(this);
     }
 }
 
