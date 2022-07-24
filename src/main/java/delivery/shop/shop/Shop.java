@@ -3,7 +3,6 @@ package delivery.shop.shop;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SecondaryTable(
         name = "shop_location",
-        pkJoinColumns = @PrimaryKeyJoinColumn(name = "id")
+        pkJoinColumns = @PrimaryKeyJoinColumn(name = "shop_id", referencedColumnName = "id")
 )
 @Entity
 public class Shop {
@@ -29,31 +28,17 @@ public class Shop {
     @Column(name = "introduction")
     private String introduction;
 
-    @AttributeOverrides({
-            @AttributeOverride(
-                    name = "streetAddress",
-                    column = @Column(table = "shop_location", name = "stree_address")
-            ),
-            @AttributeOverride(
-                    name = "latitude",
-                    column = @Column(table = "shop_location", name = "latitude")
-            ),
-            @AttributeOverride(
-                    name = "longitude",
-                    column = @Column(table = "shop_location", name = "longitude")
-            )
-    })
-    @Embedded
-    private Location location;
-
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "shop")
     private List<Menu> menuList = new ArrayList<>();
 
+    @Embedded
+    private ShopLocation location;
+
 
     @Builder
-    public Shop(String shopName, String phoneNumber, String introduction, Location location, List<Menu> menuList) {
+    public Shop(String shopName, String phoneNumber, String introduction, ShopLocation location, List<Menu> menuList) {
         this.shopName = shopName;
         this.phoneNumber = phoneNumber;
         this.introduction = introduction;

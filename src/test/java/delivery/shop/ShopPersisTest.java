@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityManager;
@@ -19,7 +18,6 @@ import javax.transaction.Transactional;
 
 import java.util.List;
 
-import static delivery.shop.shop.QLocation.location;
 import static delivery.shop.shop.QShop.shop;
 
 @Transactional
@@ -46,7 +44,7 @@ public class ShopPersisTest {
                     .shopName("shop" + i)
                     .phoneNumber("052-xxx-xxxx")
                     .introduction("hello~")
-                    .location(new Location("xxxx-xxxx-xxxx", 1.0, 2.0))
+                    .location(new ShopLocation("xxxx-xxxx-xxxx", 1.0, 2.0))
                     .menuList(menuList)
                     .build();
             em.persist(newShop);
@@ -59,7 +57,7 @@ public class ShopPersisTest {
                 .shopName("shop")
                 .phoneNumber("052-xxx-xxxx")
                 .introduction("hello~")
-                .location(new Location("xxxx-xxxx-xxxx", 1.0, 2.0))
+                .location(new ShopLocation("xxxx-xxxx-xxxx", 1.0, 2.0))
                 .build();
         em.persist(newShop);
     }
